@@ -18,27 +18,27 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
-    private EditText emailText;
+    private EditText editTextEmail;
     private EditText editTextPassword;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
-    private TextView signFromLoginScreen;
+    private TextView textViewSignFromLoginScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emailText = findViewById(R.id.emailText);
+        editTextEmail = findViewById(R.id.emailText);
         editTextPassword = findViewById(R.id.passwordText);
         Button buttonLogIn = findViewById(R.id.buttonLogin);
-        signFromLoginScreen = findViewById(R.id.signFromLoginScreen);
+        textViewSignFromLoginScreen = findViewById(R.id.signFromLoginScreen);
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         progressDialog = new ProgressDialog(this);
 
-        signFromLoginScreen.setOnClickListener(new View.OnClickListener() {
+        textViewSignFromLoginScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, Register.class));
@@ -48,7 +48,7 @@ public class Login extends AppCompatActivity {
         buttonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate(emailText.getText().toString(), editTextPassword.getText().toString());
+                validate(editTextEmail.getText().toString(), editTextPassword.getText().toString());
             }
         });
 

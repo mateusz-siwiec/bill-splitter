@@ -25,10 +25,10 @@ public class Register extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private String userId;
-    private EditText tvUsername;
-    private EditText tvPassword;
-    private EditText tvRePassword;
-    private EditText tvEmail;
+    private EditText editTextUsername;
+    private EditText editTextPassword;
+    private EditText editTextRePassword;
+    private EditText editTextEmail;
     private Button registerButton;
     private Button skipRegisterButton;
     private DatabaseReference databaseUser;
@@ -38,10 +38,10 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        tvUsername = (EditText) findViewById(R.id.tvUsername);
-        tvPassword = (EditText) findViewById(R.id.tvPassword);
-        tvRePassword = (EditText) findViewById(R.id.tvRePassword);
-        tvEmail = (EditText) findViewById(R.id.tvEmail);
+        editTextUsername = (EditText) findViewById(R.id.tvUsername);
+        editTextPassword = (EditText) findViewById(R.id.tvPassword);
+        editTextRePassword = (EditText) findViewById(R.id.tvRePassword);
+        editTextEmail = (EditText) findViewById(R.id.tvEmail);
         registerButton = (Button) findViewById(R.id.buttonRegister);
         skipRegisterButton = (Button) findViewById(R.id.skipRegister);
         mAuth = FirebaseAuth.getInstance();
@@ -52,16 +52,16 @@ public class Register extends AppCompatActivity {
 
                 Log.d(TAG, "onClick: Submit pressed. ");
                 if (validate()) {
-                    final String password = tvPassword.getText().toString().trim();
-                    final String email = tvEmail.getText().toString().trim();
-                    final String username = tvUsername.getText().toString().trim();
+                    final String password = editTextPassword.getText().toString().trim();
+                    final String email = editTextEmail.getText().toString().trim();
+                    final String username = editTextUsername.getText().toString().trim();
                     mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                 String uid = firebaseUser.getUid();
-                                User user = new User(username,email,0);
+                                User user = new User(username, email, 0);
                                 databaseUser.child(uid).setValue(user);
                                 Toast.makeText(Register.this, "Registration successfull", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Register.this, Login.class));
@@ -85,19 +85,20 @@ public class Register extends AppCompatActivity {
 
 
     }
+
     private Boolean validate() {
         Boolean result = false;
 
-        String name = tvUsername.getText().toString();
-        String email = tvEmail.getText().toString();
-        String password = tvPassword.getText().toString();
-        String rePassword = tvRePassword.getText().toString();
+        String name = editTextUsername.getText().toString();
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
+        String rePassword = editTextRePassword.getText().toString();
 
         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please enter all the details", Toast.LENGTH_SHORT).show();
-        } else if(!password.equals(rePassword)) {
+        } else if (!password.equals(rePassword)) {
             Toast.makeText(this, "Passwords aren't identical", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             result = true;
         }
         return result;
