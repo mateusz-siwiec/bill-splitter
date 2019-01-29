@@ -47,7 +47,7 @@ public class UserData extends AppCompatActivity {
                     if (email.equals(user.getEmail())) {
                         username.setText(usernameFromDatabase);
                         emailTextView.setText(emailFromDatabase);
-                        balance.setText(balanceFromDatabase.toString());
+                        balance.setText(balanceFromDatabase.toString()+" zł");
                     }
                 }
             }
