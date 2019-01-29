@@ -1,5 +1,6 @@
 package com.example.mateusz.splitwise;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class RegisterActivity extends AppCompatActivity {
+public class Register extends AppCompatActivity {
 
     public static final String TAG = "Add to database";
     private FirebaseAuth mAuth;
@@ -38,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         tvRePassword = (EditText) findViewById(R.id.tvRePassword);
         tvEmail = (EditText) findViewById(R.id.tvEmail);
         registerButton = (Button) findViewById(R.id.buttonRegister);
+        skipRegisterButton = (Button) findViewById(R.id.skipRegister);
         mAuth = FirebaseAuth.getInstance();
 
         mAuth = FirebaseAuth.getInstance();
@@ -54,15 +56,23 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                Toast.makeText(RegisterActivity.this, "Registration successfull", Toast.LENGTH_SHORT).show();
-//                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                Toast.makeText(Register.this, "Registration successfull", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(Register.this, Login.class));
                                 mAuth.signOut();
                             } else {
-                                Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
+            }
+        });
+
+        skipRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Register.this, Login.class));
+                mAuth.signOut();
             }
         });
 
