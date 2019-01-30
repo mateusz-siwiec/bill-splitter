@@ -59,16 +59,13 @@ public class Register extends AppCompatActivity {
                     final String password = editTextPassword.getText().toString().trim();
                     final String email = editTextEmail.getText().toString().trim();
                     final String username = editTextUsername.getText().toString().trim();
-                    Bill bill = new Bill("",0);
-                    final List<Bill> billList = new ArrayList<>();
-                    billList.add(bill);
                     mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                 String uid = firebaseUser.getUid();
-                                User user = new User(username, email, 0, billList);
+                                User user = new User(username, email, 0);
                                 databaseUser.child(uid).setValue(user);
                                 Toast.makeText(Register.this, "Registration successfull", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Register.this, Login.class));
