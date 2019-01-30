@@ -77,7 +77,7 @@ public class MainScreen extends AppCompatActivity {
                             ds.getRef().child("bills").push().setValue(bill);
                         }
                     }
-                }else {
+                } else {
                     Toast.makeText(MainScreen.this, "User doesn't exist", Toast.LENGTH_SHORT).show();
                 }
             }

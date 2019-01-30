@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1031336166366",
+    "firebase_url": "https://splitwiseapp-b1b3e.firebaseio.com",
+    "project_id": "splitwiseapp-b1b3e",
+    "storage_bucket": "splitwiseapp-b1b3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031336166366:android:e94ab47850b3041e",
+        "android_client_info": {
+          "package_name": "com.example.mateusz.splitwise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031336166366-t5g859e15qfklalahi9517jb7r6bo8tf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbjMM2fj50DZIAC2UdVS0PJwv6rxgz1Hg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
