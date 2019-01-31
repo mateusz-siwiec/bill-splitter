@@ -65,7 +65,7 @@ public class Register extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                 String uid = firebaseUser.getUid();
-                                User user = new User(username, email, 0);
+                                User user = new User(username, email, 0.00);
                                 databaseUser.child(uid).setValue(user);
                                 Toast.makeText(Register.this, "Registration successfull", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Register.this, Login.class));

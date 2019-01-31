@@ -70,19 +70,26 @@ public class MainScreen extends AppCompatActivity {
                 if (getAllEmails(dataSnapshot).contains(emailFromEditText)) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         String email = ds.child("email").getValue(String.class);
+                        Double balance = ds.child("balance").getValue(Double.class);
+
                         assert email != null;
                         assert firebaseUser != null;
                         if (email.equals(firebaseUser.getEmail())) {
                             Bill bill = new Bill(emailFromEditText, amountFromEditTextAsDouble / 2);
+                            double summaryBalance = balance + amountFromEditTextAsDouble / 2;
                             ds.getRef().child("bills").push().setValue(bill);
+                            ds.getRef().child("balance").setValue(summaryBalance);
                         }
                     }
                    for(DataSnapshot ds : dataSnapshot.getChildren()){
                        String email = ds.child("email").getValue(String.class);
+                       Double balance = ds.child("balance").getValue(Double.class);
                        assert email != null;
                        if(email.equals(emailFromEditText)){
                            Bill bill = new Bill(firebaseUser.getEmail(), (amountFromEditTextAsDouble /2)*-1);
+                           double summaryBalance = balance + ((amountFromEditTextAsDouble /2 )*-1);
                            ds.getRef().child("bills").push().setValue(bill);
+                           ds.getRef().child("balance").setValue(summaryBalance);
                        }
                    }
                 } else {

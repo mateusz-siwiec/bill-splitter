@@ -41,7 +41,7 @@ public class UserData extends AppCompatActivity {
                     String email = ds.child("email").getValue(String.class);
                     String usernameFromDatabase = ds.child("username").getValue(String.class);
                     String emailFromDatabase = ds.child("email").getValue(String.class);
-                    Integer balanceFromDatabase = ds.child("balance").getValue(Integer.class);
+                    Double balanceFromDatabase = ds.child("balance").getValue(Double.class);
                     assert email != null;
                     assert user != null;
                     if (email.equals(user.getEmail())) {
