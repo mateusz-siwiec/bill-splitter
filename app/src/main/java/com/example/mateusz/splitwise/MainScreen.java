@@ -66,14 +66,14 @@ public class MainScreen extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String amountFromEditText = editTextBillAmount.getText().toString();
                 String emailFromEditText = editTextBillEmail.getText().toString();
-                Integer amountFromEditTextAsInteger = Integer.valueOf(amountFromEditText);
+                Double amountFromEditTextAsDouble = Double.valueOf(amountFromEditText);
                 if (getAllEmails(dataSnapshot).contains(emailFromEditText)) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         String email = ds.child("email").getValue(String.class);
                         assert email != null;
                         assert firebaseUser != null;
                         if (email.equals(firebaseUser.getEmail())) {
-                            Bill bill = new Bill(emailFromEditText, amountFromEditTextAsInteger);
+                            Bill bill = new Bill(emailFromEditText, amountFromEditTextAsDouble);
                             ds.getRef().child("bills").push().setValue(bill);
                         }
                     }

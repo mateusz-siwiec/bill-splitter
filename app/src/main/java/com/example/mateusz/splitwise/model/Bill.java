@@ -2,12 +2,12 @@ package com.example.mateusz.splitwise.model;
 
 public class Bill {
     private String email;
-    private Integer amount;
+    private Double amount;
 
     public Bill() {
     }
 
-    public Bill(String email, Integer amount) {
+    public Bill(String email, Double amount) {
         this.email = email;
         this.amount = amount;
     }
@@ -24,7 +24,7 @@ public class Bill {
         return amount;
     }
 
-    public void setAmount(Integer amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 }
