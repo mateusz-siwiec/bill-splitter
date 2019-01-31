@@ -73,10 +73,18 @@ public class MainScreen extends AppCompatActivity {
                         assert email != null;
                         assert firebaseUser != null;
                         if (email.equals(firebaseUser.getEmail())) {
-                            Bill bill = new Bill(emailFromEditText, amountFromEditTextAsDouble);
+                            Bill bill = new Bill(emailFromEditText, amountFromEditTextAsDouble / 2);
                             ds.getRef().child("bills").push().setValue(bill);
                         }
                     }
+                   for(DataSnapshot ds : dataSnapshot.getChildren()){
+                       String email = ds.child("email").getValue(String.class);
+                       assert email != null;
+                       if(email.equals(emailFromEditText)){
+                           Bill bill = new Bill(firebaseUser.getEmail(), (amountFromEditTextAsDouble /2)*-1);
+                           ds.getRef().child("bills").push().setValue(bill);
+                       }
+                   }
                 } else {
                     Toast.makeText(MainScreen.this, "User doesn't exist", Toast.LENGTH_SHORT).show();
                 }
