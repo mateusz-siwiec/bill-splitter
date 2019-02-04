@@ -76,7 +76,7 @@ public class MainScreen extends AppCompatActivity {
                         assert firebaseUser != null;
                         if (email.equals(firebaseUser.getEmail())) {
                             Bill bill = new Bill(emailFromEditText, amountFromEditTextAsDouble / 2);
-                            double summaryBalance = balance + amountFromEditTextAsDouble / 2;
+                            Double summaryBalance = balance + amountFromEditTextAsDouble / 2;
                             ds.getRef().child("bills").push().setValue(bill);
                             ds.getRef().child("balance").setValue(summaryBalance);
                         }
@@ -87,7 +87,7 @@ public class MainScreen extends AppCompatActivity {
                        assert email != null;
                        if(email.equals(emailFromEditText)){
                            Bill bill = new Bill(firebaseUser.getEmail(), (amountFromEditTextAsDouble /2)*-1);
-                           double summaryBalance = balance + ((amountFromEditTextAsDouble /2 )*-1);
+                           Double summaryBalance = balance + ((amountFromEditTextAsDouble /2 )*-1);
                            ds.getRef().child("bills").push().setValue(bill);
                            ds.getRef().child("balance").setValue(summaryBalance);
                        }
