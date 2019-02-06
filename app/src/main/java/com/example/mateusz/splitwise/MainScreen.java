@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class MainScreen extends AppCompatActivity {
     private EditText editTextBillAmount;
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
+    private CheckBox billOwner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MainScreen extends AppCompatActivity {
         editTextBillEmail = (EditText) findViewById(R.id.editTextBillEmail);
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
+        billOwner = (CheckBox) findViewById(R.id.billOwner);
 
         buttonViewUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,29 +74,55 @@ public class MainScreen extends AppCompatActivity {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         String email = ds.child("email").getValue(String.class);
                         Double balance = ds.child("balance").getValue(Double.class);
-
                         assert email != null;
                         assert firebaseUser != null;
                         if (email.equals(firebaseUser.getEmail())) {
-                            Bill bill = new Bill(emailFromEditText, amountFromEditTextAsDouble / 2);
-                            Double summaryBalance = balance + amountFromEditTextAsDouble / 2;
-                            ds.getRef().child("bills").push().setValue(bill);
-                            ds.getRef().child("balance").setValue(summaryBalance);
+                            if (!billOwner.isChecked()) {
+                                Bill bill = new Bill(emailFromEditText, amountFromEditTextAsDouble / 2);
+                                Double summaryBalance = balance + amountFromEditTextAsDouble / 2;
+                                ds.getRef().child("bills").push().setValue(bill);
+                                ds.getRef().child("balance").setValue(summaryBalance);
+                            } else {
+                                for (DataSnapshot secondSnapshot : dataSnapshot.getChildren()) {
+                                    String friendEmail = secondSnapshot.child("email").getValue(String.class);
+                                    assert friendEmail != null;
+                                    if (friendEmail.equals(emailFromEditText)) {
+                                        Bill bill = new Bill(emailFromEditText, (amountFromEditTextAsDouble / 2) * -1);
+                                        Double summaryBalance = balance + ((amountFromEditTextAsDouble / 2) * -1);
+                                        ds.getRef().child("bills").push().setValue(bill);
+                                        ds.getRef().child("balance").setValue(summaryBalance);
+                                    }
+                                }
+                            }
                         }
                     }
-                   for(DataSnapshot ds : dataSnapshot.getChildren()){
-                       String email = ds.child("email").getValue(String.class);
-                       Double balance = ds.child("balance").getValue(Double.class);
-                       assert email != null;
-                       if(email.equals(emailFromEditText)){
-                           Bill bill = new Bill(firebaseUser.getEmail(), (amountFromEditTextAsDouble /2)*-1);
-                           Double summaryBalance = balance + ((amountFromEditTextAsDouble /2 )*-1);
-                           ds.getRef().child("bills").push().setValue(bill);
-                           ds.getRef().child("balance").setValue(summaryBalance);
-                       }
-                   }
-                } else {
-                    Toast.makeText(MainScreen.this, "User doesn't exist", Toast.LENGTH_SHORT).show();
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        String email = ds.child("email").getValue(String.class);
+                        Double balance = ds.child("balance").getValue(Double.class);
+                        assert email != null;
+                        if (email.equals(emailFromEditText)) {
+                            if (!billOwner.isChecked()) {
+                                Bill bill = new Bill(firebaseUser.getEmail(), (amountFromEditTextAsDouble / 2) * -1);
+                                Double summaryBalance = balance + ((amountFromEditTextAsDouble / 2) * -1);
+                                ds.getRef().child("bills").push().setValue(bill);
+                                ds.getRef().child("balance").setValue(summaryBalance);
+                            } else {
+                                for (DataSnapshot secondSnapshot : dataSnapshot.getChildren()) {
+                                    String friendEmail = secondSnapshot.child("email").getValue(String.class);
+                                    assert friendEmail != null;
+                                    assert firebaseUser != null;
+                                    if (friendEmail.equals(firebaseUser.getEmail())) {
+                                        Bill bill = new Bill(firebaseUser.getEmail(), amountFromEditTextAsDouble / 2);
+                                        Double summaryBalance = balance + amountFromEditTextAsDouble / 2;
+                                        ds.getRef().child("bills").push().setValue(bill);
+                                        ds.getRef().child("balance").setValue(summaryBalance);
+                                    }
+                                }
+                            }
+                        } else {
+                            Toast.makeText(MainScreen.this, "User doesn't exist", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
 
